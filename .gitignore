@@ -1,0 +1,32 @@
+# dependencies
+/node_modules
+
+# production
+/dist
+/build
+
+# frontend
+/frontend/dist
+/frontend/build
+/frontend/.angular
+/frontend/node_modules
+/frontend/src/@mpgr
+
+# backend
+/back/dist
+/back/build
+/back/node_modules
+/back/.env
+/back/.env*.local
+/back/package-lock.json
+
+# misc
+.DS_Store
+.env
+.env*.local
+.idea
+.vscode
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+/RESOURCES/REVISION
