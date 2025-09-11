@@ -13,12 +13,12 @@
 /frontend/src/@mpgr
 
 # backend
-/back/dist
-/back/build
-/back/node_modules
-/back/.env
-/back/.env*.local
-/back/package-lock.json
+/server/dist
+/server/build
+/server/node_modules
+/server/.env
+/server/.env*.local
+/server/package-lock.json
 
 # misc
 .DS_Store

@@ -8,6 +8,7 @@ import { inject } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { Observable, catchError, throwError } from 'rxjs';
+import { endsWith } from 'lodash';
 
 /**
  * Intercept
@@ -48,7 +49,7 @@ export const authInterceptor = (
     return next(newReq).pipe(
         catchError((error) => {
             // Catch "401 Unauthorized" responses
-            if (error instanceof HttpErrorResponse && error.status === 401) {
+            if (error instanceof HttpErrorResponse && error.status === 401 && !endsWith(req.url, '/auth/login')) {
                 // Sign out
                 authService.signOut();
 
