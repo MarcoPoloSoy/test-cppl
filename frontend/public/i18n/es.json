@@ -1,0 +1,150 @@
+{
+    "dashboard": {
+        "appointments": {
+            "title": "Citas Médicas",
+            "counters": {
+                "summary": {
+                    "title": "Resumen",
+                    "type": "Citas",
+                    "subtitle": "Atendidas"
+                },
+                "today": {
+                    "title": "Hoy",
+                    "type": "Citas",
+                    "subtitle": "Completas"
+                },
+                "overdue": {
+                    "title": "Vencidas",
+                    "type": "Citas",
+                    "subtitle": "Canceladas"
+                },
+                "next": {
+                    "title": "Futuras",
+                    "type": "Citas",
+                    "subtitle": "Pendientes"
+                }
+            },
+            "tabs": {
+                "home": "Home",
+                "doctors": "Doctores",
+                "patients": "Pacientes"
+            },
+            "schedule": {
+                "title": "Cronograma",
+                "buttons": {
+                    "today": "Hoy ({{count}})",
+                    "tomorrow": "Mañana ({{count}})",
+                    "next": "Futuras ({{count}})"
+                },
+                "labels": {
+                    "no_records": "There are no appointments"
+                }
+            },
+            "details": {}
+        }
+    },
+    "catalogs": {
+        "title": "Catálogos",
+        "doctors": {
+            "title": "Doctores",
+            "labels": {
+                "no_doctors_lc": "No hay doctores",
+                "doctor_lc": "doctor",
+                "doctors_lc": "doctores",
+                "no_records": "No hay doctores!"
+            }
+        },
+        "patients": {
+            "title": "Pacientes",
+            "labels": {
+                "no_patients_lc": "No hay pacientes",
+                "patient_lc": "paciente",
+                "patients_lc": "pacientes",
+                "no_records": "No hay pacientes!"
+            }
+        }
+    },
+    "sidebar_menu": {
+        "dashboard": {
+            "title": "Dashboard",
+            "appointments": {
+                "title": "Citas Médicas"
+            }
+        },
+        "catalogs": {
+            "title": "Catalogos",
+            "subtitle": "Catalogo de pacientes y doctores",
+            "doctors": {
+                "title": "Doctores"
+            },
+            "patients": {
+                "title": "Pacientes"
+            }
+        }
+    },
+    "commons": {
+        "labels": {
+            "doctor": "Doctor",
+            "patient": "Paciente",
+            "appointment": "Cita",
+            "doctors": "Doctores",
+            "patients": "Pacientes",
+            "appointments": "Citas Médicas",
+            "date": "Fecha",
+            "time": "Hora",
+            "reason": "Motivo",
+            "no_set": "Sin selección",
+            "no_records": "No se encontraron registros, por favor intente con otros terminos.",
+            "email": "Email",
+            "call": "Llamar",
+            "no_results": "No se encontraron resultados!",
+            "search": "Buscar..."
+        },
+        "buttons": {
+            "add": "Nuevo",
+            "edit": "Modificar",
+            "cancel": "Cancelar",
+            "save": "Guardar",
+            "update": "Actualizar",
+            "delete": "Eliminar",
+            "create": "Crear",
+            "close": "Close",
+            "clear": "Clear",
+            "select": "Select"
+        },
+        "status": {
+            "scheduled": "Agendada",
+            "completed": "Completada",
+            "pending": "Pendiente",
+            "cancelled": "Cancelada"
+        }
+    },
+    "inputs": {
+        "appointments": {
+            "label": {
+                "search_doctor": "Buscar doctor...",
+                "search_patient": "Buscar paciente...",
+                "reason": "Motivo de la cita",
+                "date": "Fecha de la cita",
+                "time": "Hora"
+            }
+        },
+        "doctors": {
+            "label": {
+                "search": "Buscar doctores",
+                "specialty": "Especialidad"
+            }
+        },
+        "patients": {
+            "label": {
+                "search": "Search patients"
+            }
+        },
+        "commons": {
+            "name": "Nombre",
+            "last_name": "Apellidos",
+            "email": "Correo Electónico",
+            "phone": "Teléfono"
+        }
+    }
+}

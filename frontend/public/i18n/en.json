@@ -1,0 +1,150 @@
+{
+    "dashboard": {
+        "appointments": {
+            "title": "Appointments",
+            "counters": {
+                "summary": {
+                    "title": "Summary",
+                    "type": "Appointments",
+                    "subtitle": "Attended"
+                },
+                "today": {
+                    "title": "Today",
+                    "type": "Appointments",
+                    "subtitle": "Completed"
+                },
+                "overdue": {
+                    "title": "Overdue",
+                    "type": "Appointments",
+                    "subtitle": "Cancelled"
+                },
+                "next": {
+                    "title": "Next",
+                    "type": "Appointments",
+                    "subtitle": "Pending"
+                }
+            },
+            "tabs": {
+                "home": "Home",
+                "doctors": "Doctors",
+                "patients": "Patients"
+            },
+            "schedule": {
+                "title": "Schedule",
+                "buttons": {
+                    "today": "Today ({{count}})",
+                    "tomorrow": "Tomorrow ({{count}})",
+                    "next": "Next ({{count}})"
+                },
+                "labels": {
+                    "no_records": "There are no appointments"
+                }
+            },
+            "details": {}
+        }
+    },
+    "catalogs": {
+        "title": "Catalogs",
+        "doctors": {
+            "title": "Doctors",
+            "labels": {
+                "no_doctors_lc": "No doctors",
+                "doctor_lc": "doctor",
+                "doctors_lc": "doctors",
+                "no_records": "There are no doctors!"
+            }
+        },
+        "patients": {
+            "title": "Patients",
+            "labels": {
+                "no_patients_lc": "No patients",
+                "patient_lc": "patient",
+                "patients_lc": "patients",
+                "no_records": "There are no patients!"
+            }
+        }
+    },
+    "sidebar_menu": {
+        "dashboard": {
+            "title": "Dashboard",
+            "appointments": {
+                "title": "Appointments"
+            }
+        },
+        "catalogs": {
+            "title": "Catalogs",
+            "subtitle": "Catalog of patients and doctors",
+            "doctors": {
+                "title": "Doctors"
+            },
+            "patients": {
+                "title": "Patients"
+            }
+        }
+    },
+    "commons": {
+        "labels": {
+            "doctor": "Doctor",
+            "patient": "Patient",
+            "appointment": "Appointment",
+            "doctors": "Doctors",
+            "patients": "Patients",
+            "appointments": "Appointments",
+            "date": "Date",
+            "time": "Time",
+            "reason": "Reason",
+            "no_set": "No set",
+            "no_records": "No records found, please try other terms.",
+            "email": "Email",
+            "call": "Call",
+            "no_results": "No results found!",
+            "search": "Search..."
+        },
+        "buttons": {
+            "add": "Add",
+            "edit": "Edit",
+            "cancel": "Cancel",
+            "save": "Save",
+            "update": "Update",
+            "delete": "Delete",
+            "create": "Create",
+            "close": "Close",
+            "clear": "Clear",
+            "select": "Select"
+        },
+        "status": {
+            "scheduled": "Schedule",
+            "completed": "Completed",
+            "pending": "Pending",
+            "cancelled": "Cancelled"
+        }
+    },
+    "inputs": {
+        "appointments": {
+            "label": {
+                "search_doctor": "Search doctor...",
+                "search_patient": "Search patient...",
+                "reason": "Appointment reason",
+                "date": "Appointment date",
+                "time": "Appointment time"
+            }
+        },
+        "doctors": {
+            "label": {
+                "search": "Search doctors",
+                "specialty": "Specialty"
+            }
+        },
+        "patients": {
+            "label": {
+                "search": "Search patients"
+            }
+        },
+        "commons": {
+            "name": "Name",
+            "last_name": "Last name",
+            "email": "Email",
+            "phone": "Phone"
+        }
+    }
+}

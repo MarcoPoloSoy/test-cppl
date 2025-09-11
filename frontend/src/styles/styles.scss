@@ -1,0 +1,104 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Mpgr's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- */
+/*  Snackbar
+/*  TODO: Make to a module
+/* ------------------------------------------------------------------------- */
+
+/* Appearance Fill: */
+
+/* Info */
+.snackbar-type-fill-info {
+    --mdc-snackbar-container-color: #4A5568 #{'!important'};
+}
+
+/* Success */
+.snackbar-type-fill-success {
+    --mdc-snackbar-container-color: #16A34A #{'!important'};
+}
+
+/* Error */
+.snackbar-type-fill-error {
+    --mdc-snackbar-container-color: #DC2626 #{'!important'};
+}
+
+/* General */
+.snackbar-type-fill-info,
+.snackbar-type-fill-error,
+.snackbar-type-fill-success {
+    --mdc-snackbar-supporting-text-color: #FFFFFF #{'!important'};
+    --mat-snack-bar-button-color: #FFFFFF #{'!important'};
+}
+
+
+// /* Appearance Outline: */
+// /* Info */
+// .snackbar-type-outline-info {
+
+//     --mdc-snackbar-container-color: #4A5568 #{'!important'};
+//     --mdc-snackbar-container-l
+// }
+
+
+// /* General */
+// .snackbar-type-outline-info,
+// .snackbar-type-outline-success,
+// .snackbar-type-outline-error {
+//     --mdc-snackbar-supporting-text-color: #4A5568 #{'!important'};
+//     --mat-snack-bar-button-color: #4A5568 #{'!important'};
+// }
+
+
+
+// .mat-mdc-snack-bar-container.snackbar-type-outline-info .mdc-snackbar__surface {
+//     @apply bg-gray-100 ring-1 ring-gray-400 ring-inset #{'!important'};
+//     --mdc-snackbar-supporting-text-color: #4A5568 #{'!important'};
+//     --mat-snack-bar-button-color: #4A5568 #{'!important'};
+//     color: #4A5568 #{'!important'};
+// }
+
+// /* Success */
+// .mat-mdc-snack-bar-container.snackbar-type-outline-success .mdc-snackbar__surface {
+//     @apply bg-green-50 ring-1 ring-green-400 ring-inset #{'!important'};
+//     @apply text-green-700 #{'!important'};
+// }
+
+// /* Error */
+// .mat-mdc-snack-bar-container.snackbar-type-outline-error .mdc-snackbar__surface {
+//     @apply bg-red-50 ring-1 ring-red-400 ring-inset #{'!important'};
+//     @apply text-red-700 #{'!important'};
+// }
+
+// /* Appearance Soft: */
+// /* Info */
+// .mat-mdc-snack-bar-container.snackbar-type-soft-info .mdc-snackbar__surface {
+//     @apply bg-gray-100 #{'!important'};
+//     @apply text-gray-700 #{'!important'};
+// }
+
+// /* Success */
+// .mat-mdc-snack-bar-container.snackbar-type-soft-success .mdc-snackbar__surface {
+//     @apply bg-green-50 #{'!important'};
+//     @apply text-green-700 #{'!important'};
+// }
+
+// /* Error */
+// .mat-mdc-snack-bar-container.snackbar-type-soft-error .mdc-snackbar__surface {
+//     @apply bg-red-50 #{'!important'};
+//     @apply text-red-700 #{'!important'};
+// }
+
+// /* Common */
+// .mat-mdc-snack-bar-container.snackbar-type-outline-info .mdc-snackbar__surface,
+// .mat-mdc-snack-bar-container.snackbar-type-outline-success .mdc-snackbar__surface,
+// .mat-mdc-snack-bar-container.snackbar-type-outline-error .mdc-snackbar__surface,
+// .mat-mdc-snack-bar-container.snackbar-type-soft-info .mdc-snackbar__surface,
+// .mat-mdc-snack-bar-container.snackbar-type-soft-success .mdc-snackbar__surface,
+// .mat-mdc-snack-bar-container.snackbar-type-soft-error .mdc-snackbar__surface {
+//     .mat-mdc-button {
+//         @apply text-black #{'!important'};
+//     }
+// }

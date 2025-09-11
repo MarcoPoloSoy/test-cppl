@@ -1,0 +1,166 @@
+<!-- Bar search -->
+@if (appearance === 'bar') {
+@if (!opened) {
+<button mat-icon-button (click)="open()">
+    <mat-icon [svgIcon]="'heroicons_outline:magnifying-glass'"></mat-icon>
+</button>
+}
+@if (opened) {
+<div class="bg-card absolute inset-0 z-99 flex shrink-0 items-center" @slideInTop @slideOutTop>
+    <mat-icon class="absolute ml-6 sm:ml-8" [svgIcon]="'heroicons_outline:magnifying-glass'"></mat-icon>
+    <input class="h-full w-full px-16 sm:px-18" [formControl]="searchControl" [matAutocomplete]="matAutocomplete"
+        [placeholder]="('commons.labels.search' | transloco)" (keydown)="onKeydown($event)" #barSearchInput />
+    <mat-autocomplete class="max-h-128 rounded-b border-t shadow-md sm:px-2" [autoSelectActiveOption]="true"
+        [disableRipple]="true" #matAutocomplete="matAutocomplete">
+        @if (resultSets && !resultSets.length) {
+        <mat-option class="text-secondary pointer-events-none bg-transparent px-6 py-0 text-md">
+            {{ 'commons.labels.no_results' | transloco }}
+        </mat-option>
+        }
+        @for (
+        resultSet of resultSets;
+        track trackByFn($index, resultSet)
+        ) {
+        <mat-optgroup class="mt-2 flex items-center px-2">
+            <span class="text-secondary text-sm font-semibold tracking-wider">{{
+                ('commons.labels.'+(resultSet.label.toLowerCase()) | transloco).toUpperCase() }}</span>
+        </mat-optgroup>
+        @for (
+        result of resultSet.results;
+        track trackByFn($index, result)
+        ) {
+        <mat-option class="group relative mb-1 rounded-md px-6 py-0 text-md dark:hover:bg-hover hover:bg-gray-100"
+            [routerLink]="result.link" [value]="result.value">
+            <!-- Doctors -->
+            @if (resultSet.id === 'doctors') {
+            <ng-container *ngTemplateOutlet="
+                                        doctorResult;
+                                        context: { $implicit: result }
+                                    "></ng-container>
+            }
+            <!-- Patients -->
+            @if (resultSet.id === 'patients') {
+            <ng-container *ngTemplateOutlet="
+                                        patientResult;
+                                        context: { $implicit: result }
+                                    "></ng-container>
+            }
+            <!-- Appointments -->
+            @if (resultSet.id === 'appointments') {
+            <ng-container *ngTemplateOutlet="
+                                        appointmentResult;
+                                        context: { $implicit: result }
+                                    "></ng-container>
+            }
+        </mat-option>
+        }
+        }
+    </mat-autocomplete>
+    <button class="absolute right-5 top-1/2 -mt-5 h-10 w-10 shrink-0 sm:right-7" mat-icon-button (click)="close()">
+        <mat-icon [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+    </button>
+</div>
+}
+}
+
+<!-- Basic search -->
+@if (appearance === 'basic') {
+<div class="w-full sm:min-w-80">
+    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+        <mat-icon matPrefix [svgIcon]="'heroicons_outline:magnifying-glass'"></mat-icon>
+        <input matInput [formControl]="searchControl" [matAutocomplete]="matAutocomplete" [placeholder]="'Search...'"
+            (keydown)="onKeydown($event)" />
+    </mat-form-field>
+    <mat-autocomplete class="mt-1 max-h-128 rounded" [autoSelectActiveOption]="true" [disableRipple]="true"
+        #matAutocomplete="matAutocomplete">
+        @if (resultSets && !resultSets.length) {
+        <mat-option class="text-secondary pointer-events-none bg-transparent px-6 py-0 text-md">
+            {{ 'commons.labels.no_results' }}
+        </mat-option>
+        }
+        @for (resultSet of resultSets; track trackByFn($index, resultSet)) {
+        <mat-optgroup class="mt-2 flex items-center px-2">
+            <span class="text-secondary text-sm font-semibold tracking-wider">{{
+                ('commons.labels.'+(resultSet.label.toLowerCase()) | transloco).toUpperCase() }}</span>
+        </mat-optgroup>
+        @for (
+        result of resultSet.results;
+        track trackByFn($index, result)
+        ) {
+        <mat-option class="group relative mb-1 rounded-md px-6 py-0 text-md dark:hover:bg-hover hover:bg-gray-100"
+            [routerLink]="result.link" [value]="result.value">
+            <!-- Doctors -->
+            @if (resultSet.id === 'doctors') {
+            <ng-container *ngTemplateOutlet="
+                                    doctorResult;
+                                    context: { $implicit: result }
+                                "></ng-container>
+            }
+            <!-- Patients -->
+            @if (resultSet.id === 'patients') {
+            <ng-container *ngTemplateOutlet="
+                                    patientResult;
+                                    context: { $implicit: result }
+                                "></ng-container>
+            }
+            <!-- Appointments -->
+            @if (resultSet.id === 'appointments') {
+            <ng-container *ngTemplateOutlet="
+                                    appointmentResult;
+                                    context: { $implicit: result }
+                                "></ng-container>
+            }
+        </mat-option>
+        }
+        }
+    </mat-autocomplete>
+</div>
+}
+
+<!-- Doctor result template -->
+<ng-template #doctorResult let-result>
+    <div class="flex items-center">
+        <div
+            class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-100 dark:bg-primary-800">
+            <mat-icon class="m-0 text-primary icon-size-5 dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:lifebuoy'"></mat-icon>
+        </div>
+        <div class="ml-3 truncate">
+            <span [innerHTML]="result.name"></span><span class="pl-2" [innerHTML]="result.lastName"></span>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Patient result template -->
+<ng-template #patientResult let-result>
+    <div class="flex items-center">
+        <div
+            class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-100 dark:bg-primary-800">
+            <mat-icon class="m-0 text-primary icon-size-5 dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:user'"></mat-icon>
+        </div>
+        <div class="ml-3 truncate">
+            <span [innerHTML]="result.name"></span><span class="pl-2" [innerHTML]="result.lastName"></span>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Appointment result template -->
+<ng-template #appointmentResult let-result>
+    <div class="flex items-center">
+        <div
+            class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-100 dark:bg-primary-800">
+            <mat-icon class="m-0 text-primary icon-size-5 dark:text-primary-400"
+                [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon>
+        </div>
+        <div class="ml-3 truncate">
+            <span [innerHTML]="result.reason"></span>
+            <span class="px-3">(</span>
+            <span class="pl-2" [innerHTML]="result.doctorName"></span>
+            <span class="px-3">-></span>
+            <span class="pl-2" [innerHTML]="result.patientName"></span>
+            <span class="px-3">)</span>
+
+        </div>
+    </div>
+</ng-template>

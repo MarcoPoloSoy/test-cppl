@@ -1,0 +1,506 @@
+<div class="flex flex-auto">
+    <form class="flex flex-auto flex-col overflow-y-auto p-6 pt-10 sm:p-8 sm:pt-10" [formGroup]="appointmentForm">
+        <!-- Header -->
+        <div class="-ml-4 -mt-3 flex items-center justify-between">
+
+            <button class="pl-3.5 pr-4" mat-button [matMenuTriggerFor]="appointmentStatusMenu">
+                <!-- Status actual -->
+                <div class="flex items-center justify-center">
+                    <mat-icon class="{{ appointmentStatus[appointmentForm.get('status').value].class }}"
+                        [svgIcon]="appointmentStatus[appointmentForm.get('status').value].icon"></mat-icon>
+                    <span class="ml-2 font-semibold">{{ 'commons.status.'+appointmentForm.get('status').value |
+                        transloco }}</span>
+                </div>
+            </button>
+
+            <mat-menu #appointmentStatusMenu="matMenu">
+
+                @if(appointmentForm.get('status').value === 'scheduled'){
+                <!-- scheduled -->
+                <button [ngClass]="{ 'bg-hover': false }" mat-menu-item (click)="setAppointmentStatus('scheduled')"
+                    [hidden]="(appointmentForm.get('status').value === 'scheduled')">
+                    <span class="inline-flex w-full min-w-30 items-center justify-between leading-5">
+                        <span class="font-medium">{{ 'commons.status.scheduled' | transloco }}</span>
+                        <mat-icon class="{{ appointmentStatus['scheduled'].classMenu }}"
+                            [svgIcon]="appointmentStatus['scheduled'].icon"></mat-icon>
+                    </span>
+                </button>
+                }
+
+                @if(appointmentForm.get('status').value === 'completed'){
+                <!-- completed -->
+                <button [ngClass]="{ 'bg-hover': false }" mat-menu-item (click)="setAppointmentStatus('completed')"
+                    [hidden]="appointmentForm.get('status').value === 'completed'">
+                    <span class="inline-flex w-full min-w-30 items-center justify-between leading-5">
+                        <span class="font-medium">{{ 'commons.status.completed' | transloco }}</span>
+                        <mat-icon class="{{ appointmentStatus['completed'].classMenu }}"
+                            [svgIcon]="appointmentStatus['completed'].icon"></mat-icon>
+                    </span>
+                </button>
+                }
+
+                @if(appointmentForm.get('status').value === 'pending'){
+                <!-- pending -->
+                <button [ngClass]="{ 'bg-hover': false }" mat-menu-item (click)="setAppointmentStatus('pending')">
+                    <span class="inline-flex w-full min-w-30 items-center justify-between leading-5">
+                        <span class="font-medium">{{ 'commons.status.pending' | transloco }}</span>
+                        <mat-icon class="{{ appointmentStatus['pending'].classMenu }}"
+                            [svgIcon]="appointmentStatus['pending'].icon"></mat-icon>
+                    </span>
+                </button>
+                }
+
+                @if(appointmentForm.get('status').value === 'cancelled'){
+                <!-- cancelled -->
+                <button [ngClass]="{ 'bg-hover': false }" mat-menu-item (click)="setAppointmentStatus('cancelled')"
+                    [hidden]="appointmentForm.get('status').value === 'cancelled'">
+                    <span class="inline-flex w-full min-w-30 items-center justify-between leading-5">
+                        <span class="font-medium">{{ 'commons.status.cancelled' | transloco }}</span>
+                        <mat-icon class="{{ appointmentStatus['cancelled'].classMenu }}"
+                            [svgIcon]="appointmentStatus['cancelled'].icon"></mat-icon>
+                    </span>
+                </button>
+                }
+
+
+            </mat-menu>
+
+            <div class="flex items-center">
+                <!-- More menu -->
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu">
+                    <mat-icon [svgIcon]="'heroicons_outline:ellipsis-vertical'"></mat-icon>
+                </button>
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item (click)="deleteAppointment()">
+                        <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                        <span>{{ 'commons.buttons.deleted' | transloco }}
+                        </span>
+                    </button>
+                </mat-menu>
+
+                <!-- Close button -->
+                <a mat-icon-button [routerLink]="['../']">
+                    <mat-icon [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+                </a>
+            </div>
+        </div>
+
+        <mat-divider class="mb-8 mt-6"></mat-divider>
+
+        <!-- Doctor info -->
+        <div class="flex mb-8">
+            <mpgr-card class="filter-article filter-interactive flex w-full items-center flex-col" [flippable]="true"
+                [face]="'front'" #flippableCardDoctor="mpgrCard">
+                <ng-container mpgrCardFront class="bg-accent-300">
+                    <div class="m-4 mb-4">
+                        <div class="flex flex-row justify-between">
+                            <mat-icon class="text-gray-600 dark:text-gray-500 icon-size-12 mr-2"
+                                [svgIcon]="'heroicons_solid:lifebuoy'">
+                            </mat-icon>
+                            <div class="flex flex-1 flex-col">
+                                <div class="text-md">
+                                    <span>{{ 'commons.labels.doctor' | transloco }}</span>
+                                </div>
+                                @if( appointment.doctorId ){
+                                <div class="text-2xl font-semibold leading-tight">
+                                    {{ appointment.doctorName }} {{ appointment.doctorLastName}}
+                                </div>
+                                @if( doctor ){
+                                <div class="text-md leading-tight text-primary">
+                                    <strong>{{ doctor.specialty }}</strong>
+                                </div>
+                                }
+                                }
+                                @if( !appointment.doctorId ){
+                                <div class="text-secondary mt-3 text-center">
+                                    {{ 'commons.labels.no_set' | transloco }}
+                                </div>
+                                }
+
+                            </div>
+
+                            <!-- Select Doctor -->
+                            <div>
+                                <button class="pl-3.5 pr-4" mat-button [matMenuTriggerFor]="doctorSelectMenu">
+                                    <!-- Status actual -->
+                                    <div class="flex items-center justify-center">
+                                        <mat-icon class="font-bold"
+                                            [svgIcon]="'heroicons_outline:chevron-down'"></mat-icon>
+                                    </div>
+                                </button>
+                                <mat-menu #doctorSelectMenu="matMenu">
+                                    <!-- Current doctor selected -->
+                                    @if( appointment.doctorId ){
+                                    <button class="min-h-[38px] pr-0" [ngClass]="{ 'bg-hover': false }" mat-menu-item
+                                        (click)="$event.stopPropagation()">
+                                        <span
+                                            class="inline-flex w-full min-w-50 items-center justify-between leading-5">
+                                            <span class="font-medium">{{ appointment.doctorName }} {{
+                                                appointment.doctorLastName
+                                                }}</span>
+
+                                            <mat-icon class="mr-0 text-green-600 icon-size-5 dark:text-green-500"
+                                                [svgIcon]="'heroicons_mini:check-circle'"></mat-icon>
+                                        </span>
+                                    </button>
+                                    @if( filteredDoctors.length > 0 ){
+                                    <mat-divider class="mb-0 mt-0"></mat-divider>
+                                    }
+                                    }
+                                    @if( doctors.length > 10 ){
+                                    <mat-form-field class="mpgr-mat-dense w-full m-0 p-0 max-h-[56px]"
+                                        appearance="outline" style="overflow: hidden;"
+                                        (click)="$event.stopPropagation()">
+
+                                        <input matInput [formControl]="searchDoctorsControl"
+                                            (keydown)="$event.stopPropagation()" (keyup)="$event.stopPropagation()"
+                                            (click)="$event.stopPropagation()" #searchDoctorsInput
+                                            placeholder="{{ 'inputs.appointments.label.search_doctor' }}">
+                                    </mat-form-field>
+                                    <mat-divider class="mb-0 mt-0"></mat-divider>
+                                    }
+                                    <!-- List doctors -->
+                                    @if( filteredDoctors.length > 0 ){
+                                    @for( doctorItem of filteredDoctors; track doctorItem.id; let last = $last ){
+                                    @if( doctorItem.id !== appointment.doctorId ){
+                                    <button class="min-h-[38px] pr-0" [ngClass]="{ 'bg-hover': false }" mat-menu-item
+                                        (click)="setNewDoctor(doctorItem)">
+                                        <span
+                                            class="inline-flex w-full min-w-50 items-center justify-between leading-5">
+                                            <span class="font-medium">{{ doctorItem.name }} {{ doctorItem.lastName
+                                                }}</span>
+                                            <small>( {{ doctorItem.specialty }} )</small>
+                                            @if(doctorItem.id == appointment.doctorId){
+                                            <mat-icon class="mr-0 text-green-600 icon-size-5 dark:text-green-500"
+                                                [svgIcon]="'heroicons_mini:check-circle'"></mat-icon>
+                                            }
+
+                                        </span>
+                                    </button>
+                                    }
+                                    @if( !last && doctorItem.id != appointment.doctorId ){
+                                    <mat-divider class="mb-0 mt-0"></mat-divider>
+                                    }
+                                    }
+                                    }
+                                    @if( filteredDoctors.length < 1 ){ <div class="text-secondary mt-3 text-center">
+                                        <small>{{ 'commons.labels.no_records' | transloco }}</small>
+                            </div>
+                            }
+                            </mat-menu>
+                        </div>
+                        <div>
+                            <button class="pl-3.5 pr-4" mat-button (click)="
+                                    flippableCardDoctor.face =
+                                        flippableCardDoctor.face === 'front'
+                                            ? 'back'
+                                            : 'front'
+                                ">
+                                <!-- Status actual -->
+                                <div class="flex items-center justify-center">
+                                    <mat-icon class="font-bold"
+                                        [svgIcon]="'heroicons_outline:arrows-right-left'"></mat-icon>
+
+                                </div>
+
+                            </button>
+                        </div>
+                    </div>
+        </div>
+        </ng-container>
+        <ng-container mpgrCardBack>
+            <div class="m-4 flex flex-auto flex-row">
+                @if( doctor ){
+                <div class="flex w-full items-center divide-x">
+                    <a class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                        [href]="'mailto:' + doctor.userEmail">
+                        <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:envelope'"></mat-icon>
+                        <span class="ml-2">{{ doctor.userEmail }}</span>
+                    </a>
+                    <a class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                        [href]="'tel:' + doctor.phone">
+                        <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                        <span class="ml-2">{{ doctor.phone }}</span>
+                    </a>
+                </div>
+                }
+                @if( !doctor ){
+                <div class="flex w-full items-center divide-x">
+                    <span class="ml-2 text-md font-medium">
+                        {{ 'commons.labels.no_set' | transloco }}
+                    </span>
+                </div>
+
+                }
+                <button class="ml-1.5" mat-icon-button (click)="
+                                flippableCardDoctor.face =
+                                    flippableCardDoctor.face === 'front'
+                                        ? 'back'
+                                        : 'front'
+                            ">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrows-right-left'"></mat-icon>
+                </button>
+
+
+            </div>
+        </ng-container>
+        </mpgr-card>
+</div>
+
+
+<!-- Patient info -->
+<div class="flex mb-8">
+
+    <mpgr-card class="filter-article filter-interactive flex w-full items-center flex-col" [flippable]="true"
+        [face]="'front'" #flippableCardPatient="mpgrCard">
+        <ng-container mpgrCardFront class="bg-accent-300">
+            <div class="m-4 mb-4">
+                <div class="flex flex-row justify-between">
+                    <mat-icon class="text-gray-600 dark:text-gray-500 icon-size-12 mr-2"
+                        [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                    <div class="flex flex-1 flex-col">
+                        <div class="text-md">
+                            <span>{{ 'commons.labels.patient' | transloco }}</span>
+                        </div>
+                        @if( appointment.patientId ){
+                        <div class="text-2xl font-semibold leading-tight">
+                            {{ appointment.patientName }} {{ appointment.patientLastName}}
+                        </div>
+                        }
+
+                        @if( !appointment.patientId ){
+                        <div class="text-secondary mt-3 text-center">
+                            {{ 'commons.labels.no_set' | transloco }}
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Select Patient -->
+                    <div>
+                        <button class="pl-3.5 pr-4" mat-button [matMenuTriggerFor]="patientSelectMenu">
+                            <!-- Status actual -->
+                            <div class="flex items-center justify-center">
+                                <mat-icon class="font-bold" [svgIcon]="'heroicons_outline:chevron-down'"></mat-icon>
+                                <!-- <span class="ml-2 font-semibold">select</span> -->
+                            </div>
+                        </button>
+                        <mat-menu #patientSelectMenu="matMenu">
+                            <!-- Current patient selected -->
+                            @if( appointment.patientId ){
+                            <button class="min-h-[38px] pr-0" [ngClass]="{ 'bg-hover': false }" mat-menu-item
+                                (click)="$event.stopPropagation()">
+                                <span class="inline-flex w-full min-w-50 items-center justify-between leading-5">
+                                    <span class="font-medium">
+                                        {{ appointment.patientPame }} {{ appointment.patientLastName }}
+                                    </span>
+                                    <mat-icon class="mr-0 text-green-600 icon-size-5 dark:text-green-500"
+                                        [svgIcon]="'heroicons_mini:check-circle'">
+                                    </mat-icon>
+                                </span>
+                            </button>
+                            @if( filteredPatients.length > 0 ){
+                            <mat-divider class="mb-0 mt-0"></mat-divider>
+                            }
+                            }
+                            @if( patients.length > 10 ){
+                            <mat-form-field class="mpgr-mat-dense w-full m-0 p-0 max-h-[56px]" appearance="outline"
+                                style="overflow: hidden;" (click)="$event.stopPropagation()">
+                                <!-- <mat-label>Search</mat-label> -->
+                                <input matInput [formControl]="searchPatientsControl"
+                                    (keydown)="$event.stopPropagation()" (keyup)="$event.stopPropagation()"
+                                    (click)="$event.stopPropagation()" #searchPatientsInput
+                                    placeholder="{{ 'inputs.appointments.label.search_patient' }}">
+                            </mat-form-field>
+                            <mat-divider class="mb-0 mt-0"></mat-divider>
+                            }
+                            <!-- List patients -->
+                            @if( filteredPatients.length > 0 ){
+                            @for( patientItem of filteredPatients; track patientItem.id; let last = $last ){
+                            @if( patientItem.id !== appointment.patientId ){
+                            <button class="min-h-[38px] pr-0" [ngClass]="{ 'bg-hover': false }" mat-menu-item
+                                (click)="setNewPatient(patientItem)">
+                                <span class="inline-flex w-full min-w-50 items-center justify-between leading-5">
+                                    <span class="font-medium">{{ patientItem.name }} {{ patientItem.lastName
+                                        }}</span>
+
+                                    @if(patientItem.id == appointment.patientId){
+                                    <mat-icon class="mr-0 text-green-600 icon-size-5 dark:text-green-500"
+                                        [svgIcon]="'heroicons_mini:check-circle'"></mat-icon>
+                                    }
+                                </span>
+                            </button>
+                            }
+
+                            @if( !last && patientItem.id != appointment.patientId ) {
+                            <mat-divider class="mb-0 mt-0"></mat-divider>
+                            }
+
+                            }
+                            }
+
+                            @if( filteredPatients.length < 1 ) { <div class="text-secondary mt-3 text-center">
+                                <small>
+                                    {{ 'commons.labels.no_records' | transloco }}
+                                </small>
+                    </div>
+                    }
+                    </mat-menu>
+                </div>
+                <div>
+                    <button class="pl-3.5 pr-4" mat-button (click)="
+                                    flippableCardPatient.face =
+                                        flippableCardPatient.face === 'front'
+                                            ? 'back'
+                                            : 'front'
+                                ">
+                        <div class="flex items-center justify-center">
+                            <mat-icon class="font-bold" [svgIcon]="'heroicons_outline:arrows-right-left'"></mat-icon>
+                        </div>
+
+                    </button>
+                </div>
+            </div>
+
+</div>
+</ng-container>
+<ng-container mpgrCardBack>
+    <div class="m-4 flex flex-auto flex-row">
+        @if( patient ){
+        <div class="flex w-full items-center divide-x">
+            <a class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                [href]="'mailto:' + patient.userEmail">
+                <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:envelope'"></mat-icon>
+                <span class="ml-2">{{ patient.userEmail }}</span>
+            </a>
+            <a class="flex flex-auto items-center justify-center py-4 hover:bg-hover" [href]="'tel:' + patient.phone">
+                <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                <span class="ml-2">{{ patient.phone }}</span>
+            </a>
+        </div>
+        }
+        @if( !patient ){
+        <div class="flex w-full items-center divide-x">
+            <span class="ml-2 text-md font-medium">
+                {{ 'commons.labels.no_set' | transloco }}
+            </span>
+        </div>
+        }
+        <button class="ml-1.5" mat-icon-button (click)="
+                                flippableCardPatient.face =
+                                    flippableCardPatient.face === 'front'
+                                        ? 'back'
+                                        : 'front'
+                            ">
+            <mat-icon [svgIcon]="'heroicons_outline:arrows-right-left'"></mat-icon>
+        </button>
+    </div>
+</ng-container>
+</mpgr-card>
+</div>
+
+<!-- Reason -->
+<div>
+    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>
+            {{ 'inputs.appointments.label.reason' | transloco }}
+        </mat-label>
+        <textarea matInput [formControlName]="'reason'" [spellcheck]="false" cdkTextareaAutosize
+            #reasonField></textarea>
+    </mat-form-field>
+</div>
+
+<!-- Appointment date -->
+<div class="mt-8 flex flex-wrap items-center">
+    <!-- Start at date -->
+    <div class="ml-6">
+        <div class="font-medium">{{ "inputs.appointments.label.date" | transloco }}</div>
+        <div class="relative mt-1.5 flex cursor-pointer items-center rounded-full px-4 leading-9" [ngClass]="{
+                        'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300':
+                            !appointment.startAt,
+                        'bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100':
+                            appointment.startAt && !isOverdue(),
+                        'bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100':
+                            appointment.startAt && isOverdue(),
+                    }" (click)="startAtPicker.open()">
+            <mat-icon class="text-current icon-size-5" [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+            <span class="ml-2 text-md font-medium">
+                @if (appointment.startAt) {
+                {{ appointment.startAt | date: 'longDate' }}
+                }
+                @if (!appointment.startAt) {
+                {{ "commons.labels.no_set" | transloco }}
+                }
+            </span>
+            <mat-form-field class="mpgr-mat-dense pointer-events-none invisible absolute inset-0 -mt-2.5 opacity-0"
+                [subscriptSizing]="'dynamic'">
+                <input matInput [formControlName]="'startAt'" [matDatepicker]="startAtPicker" />
+                <mat-datepicker #startAtPicker>
+                    <mat-datepicker-actions>
+                        <button mat-button (click)="
+                                        appointmentForm.get('startAt').setValue(null)
+                                    " matDatepickerCancel>
+                            {{ "commons.buttons.clear" | transloco }}
+                        </button>
+                        <button class="" mat-flat-button [color]="'primary'" matDatepickerApply>
+                            {{ "commons.buttons.select" | transloco }}
+                        </button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- Appointment hours -->
+    <div class="ml-6">
+        <div class="font-medium">{{ 'inputs.appointments.label.time' | transloco }} </div>
+        <div class="relative mt-1.5 flex cursor-pointer items-center rounded-full px-4 leading-9" [ngClass]="{
+                        'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300':
+                            !appointment.startAt,
+                        'bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100':
+                            appointment.startAt && !isOverdue(),
+                        'bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100':
+                            appointment.startAt && isOverdue(),
+                    }" [matMenuTriggerFor]="appointmentTimeMenu">
+            <mat-icon class="text-current icon-size-5" [svgIcon]="'heroicons_mini:clock'"></mat-icon>
+            <span class="ml-2 mr-1 text-md font-medium">
+                @if (appointment.startAt) {
+                {{ appointment.startAt | date: 'h:mm a' }}
+                }
+                @if (!appointment.startAt) {
+                {{ "commons.labels.no_set" | transloco }}
+                }
+            </span>
+
+        </div>
+
+        <mat-menu #appointmentTimeMenu="matMenu">
+            <!-- matMenu select time loop -->
+            @for( hour of appointmentHours.hours; track hour.hour; let last = $last ){
+            <button class="min-h-[38px] pr-0" [ngClass]="{ 'bg-hover': false }" mat-menu-item
+                (click)="setAppointmentTime(hour.hour)" [disabled]="!hour.available">
+                <span class="inline-flex w-full min-w-30 items-center justify-between leading-5">
+                    <span class="font-medium">{{ hour.formatted }}</span>
+                    @if(hour.hour == appointmentHours.selectedHour){
+                    <mat-icon class="mr-0 text-green-600 icon-size-5 dark:text-green-500"
+                        [svgIcon]="'heroicons_mini:check-circle'"></mat-icon>
+                    }
+                </span>
+            </button>
+            @if( !last ){
+            <mat-divider class="mb-0 mt-0"></mat-divider>
+            }
+            }
+        </mat-menu>
+    </div>
+</div>
+
+<!-- Actions -->
+@if( appointment.id === null ){
+<div class="-mx-6 mt-10 flex items-center py-4 pl-1 pr-4 dark:bg-transparent">
+    <button class="ml-2" mat-flat-button [color]="'primary'" [disabled]="!createAppointmentFormValid"
+        [matTooltip]="'Save'" (click)="createNewAppointment()">
+        {{ 'commons.buttons.save' | transloco }}
+    </button>
+</div>
+}
+</form>
+</div>
